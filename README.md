@@ -1,6 +1,6 @@
-#TU Delft Haptics Research
-#Department of Industrial Design
-#Perceptual Intelligence Lab
+# TU Delft Haptics Research
+# Department of Industrial Design
+# Perceptual Intelligence Lab
 
 Lead: Prof. J. Hartcher-O'Brien
 Researchers: D.Shor B. Zaaijer
