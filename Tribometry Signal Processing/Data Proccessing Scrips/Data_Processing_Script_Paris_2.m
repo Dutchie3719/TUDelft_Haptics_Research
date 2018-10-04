@@ -13,7 +13,7 @@ clc
 
 % Call the right folder to start
 selpath = uigetdir;
-cd(selpath)
+oldfolder = cd(selpath);
 % separate for material, then direction of weave, then plot tangential
 
 % Materials
@@ -39,18 +39,18 @@ cd(selpath)
 % N5 = direction 2 (inverse)
 
 cond = ['A0';'B0';'C0';'A5';'B5';'C5'];     %specify condition/material - direction of material stroke
-%cond = ['A';'B';'C'];     %specify condition/material - direction of material stroke
+%cond = ['A';'B';'C'];                      %specify condition/material - direction of material stroke
 for j=1:length(cond)
     d = dir(['1' cond(j) '*.mat']);         %load all mat files, separately for condition
     Number_mat = length(d);                 % number of .mat-Files
     figure(j)
     
     %Counters needed for for loop
-    masterdataX = zeros(500000,Number_mat); %Creates new master matrix with all data
+    masterdataX = zeros(50000,Number_mat);     %Creates new master matrix with all data
     roundnumber_mat = round(Number_mat/3,0);
-    tangdataX = zeros(500000,roundnumber_mat); %Creates a master matrix with only tangential
+    tangdataX = zeros(50000,roundnumber_mat);  %Creates a master matrix with only tangential
     
-    a = 1;                                  %Used in for loop to ensure which col in new master matrix
+    a = 1;                                      %Used in for loop to ensure which col in new master matrix
     b = 2;
     c = 3;
     t = 1;
@@ -74,10 +74,11 @@ for j=1:length(cond)
         %Plot Data
         subplot(4,2,i)                      %
         plot(dataX(:,3))
-        
-        disp('Materials Processed:',i)
     end
 end
+
+%% Change Path Back
+cd(oldfolder);
 
 % %% Normalize Data
 % 
