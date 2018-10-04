@@ -13,7 +13,7 @@ clc
 
 % Call the right folder to start
 selpath = uigetdir;
-cd(selpath)
+oldfolder = cd(selpath);
 % separate for material, then direction of weave, then plot tangential
 
 % Materials
@@ -38,6 +38,7 @@ cd(selpath)
 % N0 = direction 1
 % N5 = direction 2 (inverse)
 
+<<<<<<< HEAD
 cond = ['A0';'B0';'C0';'A5';'B5';'C5'];                             %specify condition/material - direction of material stroke
 cond2 = ['1';'2';'3';'4';'5';'6';'7';'8';'9';'10';'11';'12'];    ` %specify condition/material - direction of material stroke
 
@@ -46,12 +47,42 @@ for h=1:length(cond2)                                   %condition for each mate
         d = dir([cond2(h) cond(j) '*.mat']);            %condition for each direction
         Number_mat = length(d);                         %number of .mat-Files
         figure(h)
+=======
+cond = ['A0';'B0';'C0';'A5';'B5';'C5'];     %specify condition/material - direction of material stroke
+%cond = ['A';'B';'C'];                      %specify condition/material - direction of material stroke
+for j=1:length(cond)
+    d = dir(['1' cond(j) '*.mat']);         %load all mat files, separately for condition
+    Number_mat = length(d);                 % number of .mat-Files
+    figure(j)
+    
+    %Counters needed for for loop
+    masterdataX = zeros(50000,Number_mat);     %Creates new master matrix with all data
+    roundnumber_mat = round(Number_mat/3,0);
+    tangdataX = zeros(50000,roundnumber_mat);  %Creates a master matrix with only tangential
+    
+    a = 1;                                      %Used in for loop to ensure which col in new master matrix
+    b = 2;
+    c = 3;
+    t = 1;
+    
+    for i=1:Number_mat
+        %Load Data
+        load(d(i).name,'dataX')             %Load the dataX from each .mat
+        
+        %Create new Master Matricies
+        masterdataX(:,a) = dataX(:,1);
+        masterdataX(:,b) = dataX(:,2);
+        masterdataX(:,c) = dataX(:,3);
+        
+        tangdataX(:,t) = dataX(:,3);
+>>>>>>> b28264d9940e4d2103fd2e921baf9772166c1fd1
         
         %Master Matrix Creation
         masterdataX = zeros(500000,Number_mat);         %Creates new master matrix with all data
         roundnumber_mat = round(Number_mat/3,0);
         tangdataX = zeros(500000,roundnumber_mat);      %Creates a master matrix with only tangential
         
+<<<<<<< HEAD
         %For Loop Counters
         a = 1;                                          %Used in for loop to ensure which col in new master matrix
         b = 2;
@@ -80,8 +111,16 @@ for h=1:length(cond2)                                   %condition for each mate
             displayline = 'Materials Processed:'; h;
             disp(displayline)
         end
+=======
+        %Plot Data
+        subplot(4,2,i)                      %
+        plot(dataX(:,3))
+>>>>>>> b28264d9940e4d2103fd2e921baf9772166c1fd1
     end
 end
+
+%% Change Path Back
+cd(oldfolder);
 
 % %% Normalize Data
 % 
