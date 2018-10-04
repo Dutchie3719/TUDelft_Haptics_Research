@@ -16,7 +16,8 @@ selpath = uigetdir
 
 % separate for material, then direction of weave, then plot tangential
 
-cond = ['A0';'B0';'C0';'A5';'B5';'C5'];     %specify condition/material - direction of material stroke
+%cond = ['A0';'B0';'C0';'A5';'B5';'C5'];     %specify condition/material - direction of material stroke
+cond = ['A';'B';'C'];     %specify condition/material - direction of material stroke
 for j=1:length(cond)
     d = dir(['1' cond(j) '*.mat']);         %load all mat files, separately for condition
     Number_mat = length(d);                 % number of .mat-Files
@@ -24,7 +25,8 @@ for j=1:length(cond)
     
     %Counters needed for for loop
     masterdataX = zeros(500000,Number_mat); %Creates new master matrix with all data
-    tangdataX = zeros(500000,Number_mat/3); %Creates a master matrix with only tangential
+    roundnumber_mat = round(Number_mat/3,0);
+    tangdataX = zeros(500000,roundnumber_mat); %Creates a master matrix with only tangential
     a = 1;                                  %Used in for loop to ensure which col in new master matrix
     b = 2;
     c = 3;
