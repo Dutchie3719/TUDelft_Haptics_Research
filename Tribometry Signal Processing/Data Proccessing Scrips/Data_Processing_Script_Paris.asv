@@ -10,17 +10,40 @@ clear all
 clc
 
 %% Load all material interaction files
-% separate for material, then direction of weave, then plot tangemtial
 
-cond = ['A0';'B0';'C0';'A5';'B5';'C5']; %specify condition/material - direction of material stroke
+% Call the right folder to start
+selpath = uigetdir
+
+% separate for material, then direction of weave, then plot tangential
+
+cond = ['A0';'B0';'C0';'A5';'B5';'C5'];     %specify condition/material - direction of material stroke
 for j=1:length(cond)
-    d = dir(['1' cond(j) '*.mat']); %load all mat files, separately for condition
-    Number_mat = length(d);    % number of .mat-Files
+    d = dir(['1' cond(j) '*.mat']);         %load all mat files, separately for condition
+    Number_mat = length(d);                 % number of .mat-Files
     figure(j)
+    
+    %Counters needed for for loop
+    masterdataX = zeros(500000,Number_mat); %Creates new master matrix with all data
+    tangdataX = zeros(500000,Number_mat/3); %Creates a master mat
+    a = 1;                                  %Used in for loop to ensure which col in new master matrix
+    b = 2;
+    c = 3;
+    
     for i=1:Number_mat
-        load(d(i).name,'dataX')
-        subplot(4,2,i)
+        %Load Data
+        load(d(i).name,'dataX')             %Load the dataX from each .mat
+        
+        %Create new Master Matrix
+        masterdataX(:,a) = dataX
+        a = a+3;
+        b = b+3;
+        c = c+3;
+        
+        
+        subplot(4,2,i)                      %
         plot(dataX(:,3))
+        
+        disp('Materials Processed:',i)
     end
 end
 
@@ -34,21 +57,21 @@ time = 1:50000;
 time = time(:);
 
 %%%%% Data from daq
-A1 = Material01A(:,1); % loadcell 1 (N)  dataX(V) - 0.25
-A2 = Material01A(:,2); % loadcell 2 - 0.35
-A3 = Material01A(:,3) ; % tangential
+A1 = masterdataX(:,1); % loadcell 1 (N)  dataX(V) - 0.25
+A2 = masterdataX(:,2); % loadcell 2 - 0.35
+A3 = masterdataX(:,3) ; % tangential
 
-B1 = Material01A(:,4); % loadcell 1 (N)  dataX(V) - 0.25
-B2 = Material01A(:,5); % loadcell 2 - 0.35
-B3 = Material01A(:,6) ; % tangential
+B1 = masterdataX(:,4); % loadcell 1 (N)  dataX(V) - 0.25
+B2 = masterdataX(:,5); % loadcell 2 - 0.35
+B3 = masterdataX(:,6) ; % tangential
 
-C1 = Material01A(:,7); % loadcell 1 (N)  dataX(V) - 0.25
-C2 = Material01A(:,8); % loadcell 2 - 0.35
-C3 = Material01A(:,9) ; % tangential
+C1 = masterdataX(:,7); % loadcell 1 (N)  dataX(V) - 0.25
+C2 = masterdataX(:,8); % loadcell 2 - 0.35
+C3 = masterdataX(:,9) ; % tangential
 
-D1 = Material01A(:,10); % loadcell 1 (N)  dataX(V) - 0.25
-D2 = Material01A(:,11); % loadcell 2 - 0.35
-D3 = Material01A(:,12) ; % tangential
+D1 = masterdataX(:,10); % loadcell 1 (N)  dataX(V) - 0.25
+D2 = masterdataX(:,11); % loadcell 2 - 0.35
+D3 = masterdataX(:,12) ; % tangential
 
 
 %% Plots
