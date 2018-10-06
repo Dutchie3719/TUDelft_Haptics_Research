@@ -10,6 +10,9 @@ clearvars
 clc
 
 %% Define Global Variables
+%Time
+time = 1:50000;
+time = time(:);
 %% Set Path for Call
 
 % Call the right folder to start
@@ -20,6 +23,7 @@ oldfolder = cd(selpath);
 %% Main For Loop that Calls Everything
 
 % Materials
+cond2 = ['1';'2';'3';'4';'5';'6';'7';'8';'9';'10';'11';'12'];                            %specify condition/material - direction of material stroke
 % 1 = 
 % 2 = Wool Twill
 % 3 = 
@@ -34,6 +38,7 @@ oldfolder = cd(selpath);
 % 12 =
 
 % Directions
+cond = ['A0';'B0';'C0';'A5';'B5';'C5'];              %specify condition/material - direction of material stroke
 % A = 0 Degree  (waft)
 % B = 45 Degree (true bias)
 % C = 90 Degree (weft)
@@ -41,8 +46,8 @@ oldfolder = cd(selpath);
 % N0 = direction 1
 % N5 = direction 2 (inverse)
 
-cond = ['A0';'B0';'C0';'A5';'B5';'C5'];                           %specify condition/material - direction of material stroke
-cond2 = ['1';'2';'3';'4'];     %specify condition/material - direction of material stroke
+
+
 
 for h=1:length(cond2)                                   %condition for each material
     for j=1:length(cond)
@@ -94,8 +99,11 @@ cd(oldfolder);
 %% Find Delay (to signal fall) from initial 
 
 for dlyct=1:samplecount                                     %runs once for each sample (delay count)
-    delay(:,dlyct) = finddelay(0,masterdataX(:,dlyct));     %finds the delay between 0 and the dlyct clm of masterdataX
+    delay(:,dlyct) = finddelay(0,tangdataX(:,dlyct));     %finds the delay between 0 and the dlyct col of tangdataX (this may need to be changed to 1)
 end
+
+mindelay = min(timemat);
+maxdelay = max(timemat);
 %% Code to be Integrated
 % %% Normalize Data
 % 

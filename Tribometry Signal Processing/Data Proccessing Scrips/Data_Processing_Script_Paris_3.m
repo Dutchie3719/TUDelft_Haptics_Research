@@ -23,7 +23,7 @@ oldfolder = cd(selpath);
 %% Main For Loop that Calls Everything
 
 % Materials
-cond2 = ['1';'2';'3';'4';'5';'6';'7';'8';'9';'10';'11';'12'];                            %specify condition/material - direction of material stroke
+cond2 = ['1';'2';'3';'4';'5';'6';'7';'8';'9';]  %this line on;y breals when greater than like 9?                          %specify condition/material - direction of material stroke
 % 1 = 
 % 2 = Wool Twill
 % 3 = 
@@ -57,9 +57,9 @@ for h=1:length(cond2)                                   %condition for each mate
         figure(h)
         
         %Master Matrix Creation
-        masterdataX = zeros(500000,Number_mat);         %Creates new master matrix with all data
+        masterdataX = zeros(50000,Number_mat);         %Creates new master matrix with all data
         roundnumber_mat = round(Number_mat/3,0);
-        tangdataX = zeros(500000,roundnumber_mat);      %Creates a master matrix with only tangential
+        tangdataX = zeros(50000,roundnumber_mat);      %Creates a master matrix with only tangential
         
         %For Loop Counters
         a = 1;                                          %Used in for loop to ensure which col in new master matrix
@@ -99,8 +99,11 @@ cd(oldfolder);
 %% Find Delay (to signal fall) from initial 
 
 for dlyct=1:samplecount                                     %runs once for each sample (delay count)
-    delay(:,dlyct) = finddelay(0,masterdataX(:,dlyct));     %finds the delay between 0 and the dlyct clm of masterdataX
+    delay(:,dlyct) = finddelay(0,tangdataX(:,dlyct));     %finds the delay between 0 and the dlyct col of tangdataX (this may need to be changed to 1)
 end
+
+mindelay = min(timemat);
+maxdelay = max(timemat);
 %% Code to be Integrated
 % %% Normalize Data
 % 
