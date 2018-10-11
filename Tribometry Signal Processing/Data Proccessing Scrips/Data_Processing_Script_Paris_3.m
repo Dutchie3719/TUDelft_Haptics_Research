@@ -14,6 +14,8 @@ clc
 time = 1:50000;
 time = time(:);
 
+%Sample Info
+fs = 10000;  
 %% Set Path for Call
 
 % Call the right folder to start
@@ -57,7 +59,7 @@ for h=1:length(cond2)                                   %condition for each mate
         figure(h)
         
         %Master Matrix Creation
-        masterdataX = zeros(50000,Number_mat);         %Creates new master matrix with all data
+        masterdataX = zeros(50000,Number_mat*3);         %Creates new master matrix with all data
         roundnumber_mat = round(Number_mat/3,0);
         tangdataX = zeros(50000,roundnumber_mat);      %Creates a master matrix with only tangential
         
@@ -86,7 +88,7 @@ for h=1:length(cond2)                                   %condition for each mate
             %Plot Data
 %             subplot((Number_mat/2),2,i)                      %
 %             plot(dataX(:,3))
-            displayline = ['Materials Processed:', i];
+            displayline = ['Materials Processed:', t];
             disp(displayline)
         end
     end
@@ -94,33 +96,46 @@ end
 
 samplecount = h*j;
 %% Change Path Back
+
 cd(oldfolder);
-
-
 %% Plot Initial Data
 
-for i = 1:Width(tangdataX)
+for q = 1:Width(tangdataX)
+    figure('Name','Raw/Initial Data Plot'
+        subplot((Number_mat/4),4,Number_mat)
+        plot(tangdataX(:,q))
 end
 %% Find Delay (to signal fall) from initial for x normalization
 
-for dlyct=1:samplecount                                     %runs once for each sample (delay count)
+for dlyct=1:samplecount                                   %runs once for each sample (delay count)
     delay(:,dlyct) = finddelay(0,tangdataX(:,dlyct));     %finds the delay between 0 and the dlyct col of tangdataX (this may need to be changed to 1)
 end
 
 mindelay = min(timemat);
 maxdelay = max(timemat);
-
 %% Find Offset for y normalization
 
-%% Integrate to get intF (Velocity)
+avgydataX = zeros(50000;width(tangdataX)
 
-%% Integrate to get intintF (Position)
+for g = 1:width(tangdataX)
+    avgydataX = mean(tangdataX, %how do I get this to do the first 5000 samples?
+end
 
 %% Transform into frequency domain
 
+%Fast Forier Transform
+%If the input X is a matrix, Y = fft(X) returns the Fourier transform of each column of the matrix.
+%https://nl.mathworks.com/matlabcentral/answers/336010-how-do-i-convert-time-domain-data-into-frequency-domain
+
+for g = 1:width(tangdataX)
+    ffttangdataX(:,g) = fft(tangdataX(:,g));
+end
 %% Filtering
 
-
+%bandpass filter 55hz - 1khz
+%https://nl.mathworks.com/help/signal/ref/bandpass.html
+filtertangdataX = bandpass(tangdataX,55,1000,fs);       %bandpass from 55hz to 1khz at sampling rate Fs.
+filterffttangdataX = bandpass(fftangdataX,55,1000,fs);  %bandpass from 55hz to 1khz for the FFT
 
 %% Integrate 
 
